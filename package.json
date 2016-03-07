@@ -1,0 +1,14 @@
+{
+    "name": "cliffy-api",
+    "main": "server.js",
+    "scripts":{
+    	"start": "node server.js"
+    },
+    "dependencies": {
+        "express": "~4.13.3",
+        "mongoose": "~3.6.13",
+        "body-parser": "~1.0.1", 
+        "express-s3-router": "~0.1.1",
+        "aws-sdk": "~2.2.41"
+    }
+}
