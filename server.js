@@ -27,7 +27,7 @@ var router = express.Router();              // get an instance of the express Ro
 // middleware called with all requests
 router.use(function(req, res, next) {
     // do logging
-    console.log('Logging a call: ' + req);
+    console.log('Call made');
     next(); // make sure we go to the next routes
 });
 
@@ -36,7 +36,8 @@ router.get('/', function(req, res) {
 	s3.listObjects({Bucket: "cliffy"}, function(err, data){
 		var random = Math.floor((Math.random() * data.Contents.length));
 		var url = s3.getSignedUrl('getObject', {Bucket: "cliffy", Key: data.Contents[random].Key});
-		res.status(200).json({attachments: [{image_url: url}]});
+		res.header("Content-Type", "application/json");
+		res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{image_url: url}]});
 	});
 });
 
