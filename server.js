@@ -32,17 +32,24 @@ router.use(function(req, res, next) {
 });
 
 // get random object in s3 bucket
-router.get('/', function(req, res) {
+router.post('/', function(req, res) {
+	var text = req["text"];
+
 	s3.listObjects({Bucket: "cliffy"}, function(err, data){
 		var random = Math.floor((Math.random() * data.Contents.length));
 		var url = s3.getSignedUrl('getObject', {Bucket: "cliffy", Key: data.Contents[random].Key});
 		res.header("Content-Type", "application/json");
-		res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{image_url: url}]});
+		if(text === "type1"){
+			res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{image_url: url}]});
+		}
+		else{
+			res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{text: "attachment text"}]});
+		}
 	});
 });
 
-router.post('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api with a post!' });   
+router.get('/', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api with a get!' });   
 });
 
 router.put('/', function(req, res) {
