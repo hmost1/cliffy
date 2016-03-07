@@ -36,7 +36,7 @@ router.get('/', function(req, res) {
 	s3.listObjects({Bucket: "cliffy"}, function(err, data){
 		var random = Math.floor((Math.random() * data.Contents.length));
 		var url = s3.getSignedUrl('getObject', {Bucket: "cliffy", Key: data.Contents[random].Key});
-		res.json({"attachments": [{"image_url": url}]});
+		res.status(200).json({attachments: [{image_url: url}]});
 	});
 });
 
