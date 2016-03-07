@@ -31,11 +31,12 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes
 });
 
-// root route for intitial testing (accessed at GET http://localhost:8080/api)
+// get random object in s3 bucket
 router.get('/', function(req, res) {
 	s3.listObjects({Bucket: "cliffy"}, function(err, data){
 		var random = Math.floor((Math.random() * data.Contents.length));
-		s3.getObject({Bucket: "cliffy", Key: data.Contents[random].Key}).createReadStream().pipe(res);
+		var url = s3.getSignedUrl('getObject', {Bucket: "cliffy", Key: data.Contents[random].Key});
+		res.json({"attachments": [{"image_url": url}]});
 	});
 });
 
