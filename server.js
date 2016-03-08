@@ -51,8 +51,11 @@ router.post('/', function(req, res) {
   				url = "http://i.giphy.com/3o6UBo8U2iHUG5mszS.gif"
   				res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{text: "3", image_url: url}]});
   				break;
-  			default:
+  			case "4":
   				res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{image_url: url}]});
+  				break;
+  			default:
+  				res.status(200).json({response_type: "in_channel", attachments: [{text: "cliffy", image_url: url}]});
 				break;
 		}
 	});
