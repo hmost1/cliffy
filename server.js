@@ -33,17 +33,27 @@ router.use(function(req, res, next) {
 
 // get random object in s3 bucket
 router.post('/', function(req, res) {
-	var text = req["text"];
+	var text = req.body.text;
 
 	s3.listObjects({Bucket: "cliffy"}, function(err, data){
 		var random = Math.floor((Math.random() * data.Contents.length));
 		var url = s3.getSignedUrl('getObject', {Bucket: "cliffy", Key: data.Contents[random].Key});
 		res.header("Content-Type", "application/json");
-		if(text === "type1"){
-			res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{image_url: url}]});
-		}
-		else{
-			res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{text: "attachment text"}]});
+		switch(text){
+			case "1":
+				res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{text: "1", image_url: url}]});
+				break;
+  			case "2":
+  				url = "https://cliffy.s3.amazonaws.com/giphy.gif";
+  			  	res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{text: "2", image_url: url}]});
+  			  	break;
+  			case "3":
+  				url = "http://i.giphy.com/3o6UBo8U2iHUG5mszS.gif"
+  				res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{text: "3", image_url: url}]});
+  				break;
+  			default:
+  				res.status(200).json({response_type: "in_channel", text: "welcome to cliffy", attachments: [{image_url: url}]});
+				break;
 		}
 	});
 });
