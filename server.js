@@ -27,14 +27,10 @@ router.use(function(req, res, next) {
 	
 	switch (token)
 	{
-		case process.env.LADIES_TOKEN: 
+		case process.env.LADIES_TOKEN:
+		case process.env.IDI_TOKEN: 
 				next();
 				break; 
-		case process.env.IDI_TOKEN:
-			if(process.env.IDI_NAMES && process.env.IDI_NAMES.includes(user)){
-				next();
-				break;
-			} //else, continue on to the default
 		default:
 			res.header("Content-Type", "application/json");
 			res.status(200).json({response_type: "in_channel", text: "You don't currently have access to cliffy,"
